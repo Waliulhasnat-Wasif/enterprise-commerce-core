@@ -52,8 +52,8 @@ namespace EnterpriseCommerceCore.App.Step02_Abstraction
             return GetReceipt();
         }
 
-        // Concrete helper — uses the abstract TransactionFee, proving abstract members
-        // can still be consumed by ordinary methods on the base class.
+        // Concrete helper — uses the abstract TransactionFee (the override implementation of the child class)
+        // proving abstract members can still be consumed by ordinary methods on the base class.
         protected string GetReceipt()
         {
             decimal total = Amount + TransactionFee;
