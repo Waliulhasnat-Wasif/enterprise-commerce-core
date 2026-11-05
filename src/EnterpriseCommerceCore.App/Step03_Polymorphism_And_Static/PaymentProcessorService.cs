@@ -29,7 +29,7 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
         static PaymentProcessorService()
         {
             ServiceStartedAt = DateTime.UtcNow;
-            Console.WriteLine($"  [Static Ctor fired ONCE] Service initialized at {ServiceStartedAt:T}");
+            Console.WriteLine($"  [Static Constructor fired ONCE] Service initialized at {ServiceStartedAt:T}");
         }
 
         // STATIC METHOD operating on a POLYMORPHIC collection — this is the bridge between
@@ -50,7 +50,7 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
                 // and at RUNTIME, C# picks whichever CreditCard/Paypal/BankTransfer version
                 // actually applies. The static method doesn't know or care which one.
                 Console.WriteLine(payment.ProcessPayment());
-                _totalProcessed++;
+                ++_totalProcessed;
             }
 
             // STATIC LOCAL FUNCTION (C# 7+): a function defined and used ONLY inside this

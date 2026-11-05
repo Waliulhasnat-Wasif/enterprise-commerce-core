@@ -16,8 +16,8 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
 
         public TransactionCounter()
         {
-            _instanceCount++;          // shared counter goes up
-            InstanceId = _instanceCount; // this object's own personal snapshot of that count
+            ++_instanceCount;          // shared counter goes up
+            InstanceId = _instanceCount; // this object's own personal snapshot of that count & read-only property can only be assigned within constructor
         }
     }
 }

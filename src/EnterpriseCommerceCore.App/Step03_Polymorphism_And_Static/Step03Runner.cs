@@ -64,7 +64,7 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
             Console.WriteLine("  ^ CheckoutCart never wrote 'new CreditCardPayment' itself — it was HANDED one.\n");
 
             Console.WriteLine("  6b. Property Injection (optional dependency)");
-            var notifierWithLogging = new OrderNotifier { Logger = new CreditCardPayment(0m, "0000") as ILoggable };
+            var notifierWithLogging = new OrderNotifier { Logger = new ConsoleOrderLogger() };
             var notifierWithoutLogging = new OrderNotifier(); // Logger left null — no crash, no forced dependency
             notifierWithLogging.NotifyOrderPlaced("ORD-1001");
             notifierWithoutLogging.NotifyOrderPlaced("ORD-1002");
@@ -72,8 +72,12 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
 
             Console.WriteLine("  6c. Method Injection (dependency scoped to a single call)");
             var exporter = new OrderReportExporter();
-            Console.WriteLine(exporter.ExportSummary(new BankTransferPayment(300m, "999888"), new BankTransferPayment(0m, "x")));
-            Console.WriteLine();
+            var bigPayment = new BankTransferPayment(50000m, "999888"); // ONE payment, real data only
+
+            // Same exporter, same payment, same method. Only the injected validator changes per call.
+            Console.WriteLine(exporter.ExportSummary(bigPayment, new BankTransferValidator()));
+            Console.WriteLine(exporter.ExportSummary(bigPayment, new StrictHighValueValidator()));
+            Console.WriteLine("  ^ Same payment, different injected validator, different result. That is method injection's real purpose.\n");
 
             Console.WriteLine("  6d. Why this matters: testing WITHOUT touching a real gateway");
             var fake = new FakePaymentForTesting(100m);

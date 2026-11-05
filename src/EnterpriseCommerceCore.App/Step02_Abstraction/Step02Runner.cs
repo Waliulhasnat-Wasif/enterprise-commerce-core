@@ -37,6 +37,7 @@ namespace EnterpriseCommerceCore.App.Step02_Abstraction
             Console.WriteLine("-- 4. Default Interface Method vs Overridden --");
             ILoggable cardLogger = card;       // has its own override
             cardLogger.LogAction("Charged");
+            card.LogAction("Charged....."); // Since it has it's own overriden method, we can call it without interface reference
             ILoggable defaultLogger = new BankAccountLoggerStub();
             defaultLogger.LogAction("Transferred"); // uses ILoggable's default body — no override provided
             Console.WriteLine();
