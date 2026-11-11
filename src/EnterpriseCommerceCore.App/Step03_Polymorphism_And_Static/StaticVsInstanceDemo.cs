@@ -3,8 +3,12 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
     public class BaseIdentity
     {
         // STATIC METHOD: resolved at COMPILE TIME based on the DECLARED type of the
-        // reference you call it through. Static methods CANNOT be marked virtual,
-        // and therefore CANNOT truly participate in polymorphism.
+        // reference you call it through. 
+        // STATIC METHOD: Bound at COMPILE TIME to the CLASS itself, NOT an instance.
+        // In C#, you MUST call it using the class name (e.g., ClassName.MethodName()); 
+        // calling it through an instance reference is a compile-time error.
+        // Because it belongs to the type layout and cannot be marked virtual, 
+        // static methods CANNOT participate in runtime polymorphism.
         public static string Identify() => "Static: BaseIdentity (compile-time binding)";
 
         // INSTANCE + VIRTUAL: resolved at RUNTIME based on the ACTUAL object type,

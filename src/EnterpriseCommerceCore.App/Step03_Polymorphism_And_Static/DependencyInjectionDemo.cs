@@ -62,6 +62,8 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
         }
     }
 
+    // ---------- A real logger: only the interface contract, uses ILoggable's DEFAULT method ----------
+    public class ConsoleOrderLogger : ILoggable { }
 
     // ---------- 3. METHOD INJECTION — dependency needed for ONE call, not the whole object ----------
     public class OrderReportExporter
@@ -76,6 +78,18 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
         }
     }
 
+    // ---------- SEPARATE validators: pure logic, no fake payment data needed ----------
+    public class BankTransferValidator : IPaymentValidator
+    {
+        // Normal bank transfers: any positive amount up to 1,000,000.
+        public bool Validate(decimal amount) => amount > 0 && amount <= 1_000_000m;
+    }
+
+    public class StrictHighValueValidator : IPaymentValidator
+    {
+        // A stricter rule set, e.g. for a fraud-sensitive account: cap at 10,000.
+        public bool Validate(decimal amount) => amount > 0 && amount <= 10_000m;
+    }
 
     // ---------- 4. WHY DI ACTUALLY MATTERS: a fake dependency, with zero mocking framework ----------
     public class FakePaymentForTesting : PaymentMethod
@@ -120,20 +134,4 @@ namespace EnterpriseCommerceCore.App.Step03_Polymorphism_And_Static
             return factory(amount);
         }
     }
-
-    // ---------- SEPARATE validators: pure logic, no fake payment data needed ----------
-    public class BankTransferValidator : IPaymentValidator
-    {
-        // Normal bank transfers: any positive amount up to 1,000,000.
-        public bool Validate(decimal amount) => amount > 0 && amount <= 1_000_000m;
-    }
-
-    public class StrictHighValueValidator : IPaymentValidator
-    {
-        // A stricter rule set, e.g. for a fraud-sensitive account: cap at 10,000.
-        public bool Validate(decimal amount) => amount > 0 && amount <= 10_000m;
-    }
-
-    // ---------- A real logger: only the interface contract, uses ILoggable's DEFAULT method ----------
-    public class ConsoleOrderLogger : ILoggable { }
 }
