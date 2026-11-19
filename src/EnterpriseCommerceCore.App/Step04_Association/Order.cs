@@ -4,9 +4,10 @@ using EnterpriseCommerceCore.App.Step02_Abstraction;
 
 namespace EnterpriseCommerceCore.App.Step04_Association
 {
+    // Association: Many-to-One, Unidirectional + One-to-One
     public class Order
     {
-        public Guid OrderId { get; } = Guid.NewGuid();
+        public Guid OrderId { get; }
 
         // ASSOCIATION (many-to-one, UNIDIRECTIONAL): many Orders can point to ONE Customer.
         // Order knows its Customer, but Customer has no idea which Orders point at it.
@@ -21,6 +22,9 @@ namespace EnterpriseCommerceCore.App.Step04_Association
         {
             // An Order without a Customer makes no sense, so we reject null immediately.
             Customer = customer ?? throw new ArgumentNullException(nameof(customer));
+
+            // Generate OrderId only after confirming we have a valid Customer reference.
+            OrderId = Guid.NewGuid();
         }
 
         public void AttachPayment(PaymentMethod payment)

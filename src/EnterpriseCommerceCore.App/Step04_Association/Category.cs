@@ -11,7 +11,7 @@ namespace EnterpriseCommerceCore.App.Step04_Association
         public string Name { get; }
 
         private readonly List<Product> _products = new();
-        public IReadOnlyList<Product> Products => _products;
+        public IReadOnlyList<Product> Products => _products.AsReadOnly();
 
         public Category(string name)
         {

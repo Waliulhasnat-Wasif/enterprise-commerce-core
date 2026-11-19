@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace EnterpriseCommerceCore.App.Step04_Association
 {
+    //Many-to-Many, Bidirectional
     public class Product
     {
         public string Name { get; }
@@ -12,7 +13,7 @@ namespace EnterpriseCommerceCore.App.Step04_Association
         private readonly List<Supplier> _suppliers = new();
 
         // IReadOnlyList = callers can READ but not modify. Encapsulation of the relationship.
-        public IReadOnlyList<Supplier> Suppliers => _suppliers;
+        public IReadOnlyList<Supplier> Suppliers => _suppliers.AsReadOnly();
 
         public Product(string name, decimal price)
         {
